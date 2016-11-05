@@ -86,6 +86,20 @@ exports.addNote = function(req, res) {
     console.log("Updating User " + id);
    }
 
+exports.updateNoteByTitleandId = function(req,res) {
+    var id = req.params.id;
+    var title = req.params.title;
+    console.log('Updating note named ' + title + ' from user ' + id);
+    var newContent = "Here is the new Content";
+    db.collection('users', function(err,collection){
+        collection.update({'_id': new ObjectId(id), "notes.title": title}, {$set: {"notes.$.contents": newContent}},function(err,item) {
+            console.log("Updated.");
+            res.send({'updated': newContent});
+        })
+
+    })
+};
+
   exports.deleteById = function(req, res) {
       var id = req.params.id;
       console.log('Deleting user with id ' + id);
