@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var ctrlNotes = require('../controllers/notes');
+var ctrlUsers = require('../controllers/user');
 var ctrlIndex = require('../controllers/index');
 
 /* GET home page. */
-router.get('/', ctrlIndex.noteList);
+router.get('/', ctrlIndex.userList);
 
 /* API */
-router.get('/api/notes', ctrlNotes.findAll);
-router.get('/api/notes/:id', ctrlNotes.findById);
-router.put('/api/notes/', ctrlNotes.add);
-router.post('/api/notes/:id', ctrlNotes.update);
-router.delete('/api/notes/:id',ctrlNotes.deleteById);
+router.get('/api/users', ctrlUsers.findAll);
+router.get('/api/users/:id', ctrlUsers.findById);
+router.put('/api/users/', ctrlUsers.add);
+router.post('/api/users/:id', ctrlUsers.update);
+router.delete('/api/users/:id',ctrlUsers.deleteById);
 
 module.exports = router;

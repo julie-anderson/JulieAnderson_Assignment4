@@ -2,10 +2,10 @@ extends layout
 
 block content
   .row.list-group
-    each Note in notes
+    each User in users
       .col-xs-12.list-group-item
-        p.notetitle=Note.title
-        p.notecontents=Note.contents
+        p.username=User.username
+        p.userpassword=User.password
 
 
 

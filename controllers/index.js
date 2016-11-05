@@ -7,14 +7,14 @@ var request = require('request');
 
 var renderHomepage = function(req, res, responseBody){
     res.render('index', {
-        title: "Notes",
-        notes: responseBody
+        title: "Users",
+        users: responseBody
     });
 };
 
-module.exports.noteList = function(req, res) {
+module.exports.userList = function(req, res) {
     var options = {
-        url: 'http://localhost:3000/api/notes',
+        url: 'http://localhost:3000/api/users',
         methog: 'GET',
         json: {}
     }
