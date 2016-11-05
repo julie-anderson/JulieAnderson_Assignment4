@@ -31,6 +31,22 @@
     });
  }
 
+exports.findNotesByIdAndTitle = function(req, res) {
+    var id = req.params.id;
+    var title = req.params.title;
+    console.log("Finding Notes named " + title + " for User " + id );
+    db.collection('users', function(err, collection) {
+        collection.findOne({'_id': new ObjectId(id)},function(err, item) {
+            var noteToReturn;
+            for(var i = 0; i<item.notes.length; i++){
+                console.log(item.notes[i].title)
+                if (item.notes[i].title == title){noteToReturn = item.notes[i]}
+            }
+            res.send(noteToReturn);
+        });
+    });
+}
+
  exports.findAll = function(req, res) {
   console.log("Finding All Notes for a user");
   db.collection('users', function(err,collection) {

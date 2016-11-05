@@ -2,15 +2,12 @@ extends layout
 
 block content
 
-      .error= message
+
       .row.list-group
-        each User in users
           .col-xs-12.list-group-item
-            p.username="Username: " + User.username
-            p.userpassword="Password: " + User.password
-            each Note in User.notes
+            each Note in notes
                 p.notetitle="Note Title: " + Note.title
-                p.notecontent="Note Content: " + Note.contents
+                p.notecontent="Note Contents: " + Note.contents
 
 
 
