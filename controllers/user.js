@@ -21,13 +21,18 @@
      }
  });
 
- exports.findById = function(req, res) {
- var id = req.params.id;
- console.log("Finding User " + id);
+ exports.findNotesById = function(req, res) {
+    var id = req.params.id;
+    console.log("Finding Notes for User " + id );
+    db.collection('users', function(err, collection) {
+        collection.findOne({'_id': new ObjectId(id)},function(err, item) {
+            res.send(item.notes);
+        });
+    });
  }
 
  exports.findAll = function(req, res) {
-  console.log("Finding All Users");
+  console.log("Finding All Notes for a user");
   db.collection('users', function(err,collection) {
     collection.find().toArray(function(err, items) {
         res.status(200);
@@ -54,21 +59,39 @@
    }
 
   exports.deleteById = function(req, res) {
-    var id = req.params.id;
-     console.log("Deleting User " + id);
+      var id = req.params.id;
+      console.log('Deleting user with id ' + id);
+      db.collection('users', function(err, collection) {
+          console.log('deleting');
+          collection.remove({'_id': new ObjectId(id)}, function(err, results) {
+              if (err){
+                  console.log("failed");
+                  throw err;
+              }
+              console.log('deleted');
+              res.status(200);
+              res.send({'message': 'item deleted id ' + req.params.id});
+          });
+      });
     }
 
  var populateDB = function() {
 
      var user = [
-     {
-         username: "test",
-         password: "test",
-         notes: [{
-             title: "groceries",
-             contents: "apples, bananas, oranges"
-         }]
-     }];
+         {
+             username: "test",
+             password: "test",
+             notes: [
+                 {
+                     title: "groceries",
+                     contents: "apples, bananas, oranges"
+                 },
+                 {
+                     title: "Another note",
+                     contents: "1,2,3"
+                 }
+             ]
+         }];
 
      db.collection('users', function(err, collection) {
          collection.insert(user, {safe:true}, function(err, result) {});

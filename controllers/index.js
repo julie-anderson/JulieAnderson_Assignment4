@@ -14,7 +14,7 @@ var renderHomepage = function(req, res, responseBody){
 
 module.exports.userList = function(req, res) {
     var options = {
-        url: 'http://localhost:3000/api/users',
+        url: 'http://localhost:3000/api/users/',
         methog: 'GET',
         json: {}
     }

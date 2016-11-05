@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  .row.list-group
-    each User in users
-      .col-xs-12.list-group-item
-        p.username=User.username
-        p.userpassword=User.password
-        p.notetitle=User.notes.title
-        p.notecontent=User.notes.contents
+
+      .error= message
+      .row.list-group
+        each User in users
+          .col-xs-12.list-group-item
+            p.username="Username: " + User.username
+            p.userpassword="Password: " + User.password
+            each Note in User.notes
+                p.notetitle="Note Title: " + Note.title
+                p.notecontent="Note Content: " + Note.contents
+
 
 
 

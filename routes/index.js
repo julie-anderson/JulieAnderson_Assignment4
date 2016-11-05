@@ -7,8 +7,9 @@ var ctrlIndex = require('../controllers/index');
 router.get('/', ctrlIndex.userList);
 
 /* API */
-router.get('/api/users', ctrlUsers.findAll);
-router.get('/api/users/:id', ctrlUsers.findById);
+router.get('/api/users/', ctrlUsers.findAll);
+router.get('/api/users/:id/notes', ctrlUsers.findNotesById);
+//router.get('/api/users/:id', ctrlUsers.findById);
 router.put('/api/users/', ctrlUsers.add);
 router.post('/api/users/:id', ctrlUsers.update);
 router.delete('/api/users/:id',ctrlUsers.deleteById);
