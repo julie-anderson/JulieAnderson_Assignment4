@@ -64,10 +64,10 @@
      {
          username: "test",
          password: "test",
-         notes: {
+         notes: [{
              title: "groceries",
              contents: "apples, bananas, oranges"
-         }
+         }]
      }];
 
      db.collection('users', function(err, collection) {
