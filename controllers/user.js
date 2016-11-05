@@ -69,6 +69,18 @@ exports.findNotesByIdAndTitle = function(req, res) {
    });
   };
 
+exports.addNote = function(req, res) {
+    var id = req.params.id;
+    console.log("Adding Note for user " + id);
+    var newNote = {title: "Third Note", contents: "x y z"};
+    db.collection('users', function (err, collection) {
+        collection.update({'_id': new ObjectId(id)}, {$push: {notes: newNote}},function(err,item){
+            console.log("Added.")
+            res.send({'added': newNote});
+        })
+    })
+};
+
  exports.update = function(req, res) {
    var id = req.params.id;
     console.log("Updating User " + id);
