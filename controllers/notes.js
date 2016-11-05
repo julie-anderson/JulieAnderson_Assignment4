@@ -14,7 +14,8 @@
         console.log("Connected to 'test' database");
         db.collection('notes', {strict:true}, function(err,collection){
             if(err){
-                console.log("The 'notes' collection doesn't exist.");
+                console.log("The 'notes' collection doesn't exist. Creating it...");
+                populateDB();
             }
         });
      }
@@ -37,7 +38,15 @@
 
  exports.add = function(req, res) {
    console.log("Adding Note");
-   }
+   console.log(req.body);
+   db.collection('notes', function (err, collection){
+    collection.insert(req.body, {w:1}, function(err,doc) {
+        console.log(doc);
+        res.status(200);
+        res.send({'inserted': doc});
+    });
+   });
+  };
 
  exports.update = function(req, res) {
    var id = req.params.id;
@@ -48,4 +57,18 @@
     var id = req.params.id;
      console.log("Deleting Note " + id);
     }
+
+ var populateDB = function() {
+
+     var notes = [
+     {
+         title: "groceries",
+         contents: "apples, bananas, oranges"
+     }];
+
+     db.collection('notes', function(err, collection) {
+         collection.insert(notes, {safe:true}, function(err, result) {});
+     });
+
+ };
 
