@@ -100,6 +100,19 @@ exports.updateNoteByTitleandId = function(req,res) {
     })
 };
 
+exports.deleteNoteByTitleandId = function(req,res) {
+    var id = req.params.id;
+    var title = req.params.title;
+    console.log('Deleting note named ' + title + ' from user ' + id);
+    db.collection('users', function(err,collection){
+        collection.update({'_id': new ObjectId(id)}, {$pull: {"notes" : {"title":title}}},function(err,item) {
+            console.log("Deleted.");
+            res.send({'deleted': title});
+        })
+
+    })
+};
+
   exports.deleteById = function(req, res) {
       var id = req.params.id;
       console.log('Deleting user with id ' + id);
