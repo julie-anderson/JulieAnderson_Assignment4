@@ -108,7 +108,7 @@ exports.updateNoteByTitleandId = function(req,res) {
     var title = req.params.title;
     console.log('Updating note named ' + title + ' from user ' + id);
     db.collection('users', function(err,collection){
-        collection.update({'_id': id, "notes.title": title}, {$set: {"notes.$.contents": req.body.contents}},function(err,item) {
+        collection.update({'_id': id, "notes.title": title}, {$set: {"notes.$.title": req.body.title, "notes.$.contents": req.body.contents}},function(err,item) {
             console.log("Updated.");
             res.status(200);
             res.redirect('/');
