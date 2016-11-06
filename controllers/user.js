@@ -34,6 +34,17 @@
     });
  }
 
+exports.findNotesByUsername = function(req, res) {
+    var username = req.params.username;
+    console.log("Finding Notes for User " + username );
+    db.collection('users', function(err, collection) {
+        collection.findOne({'username': username},function(err, item) {
+            res.status(200);
+            res.send(item.notes);
+        });
+    });
+}
+
 exports.findNotesByIdAndTitle = function(req, res) {
     var id = req.params.id;
     var title = req.params.title;
@@ -81,7 +92,8 @@ exports.addNote = function(req, res) {
         collection.update({'_id': new ObjectId(id)}, {$push: {notes: req.body}}, {w:1}, function(err,item){
             console.log("Added.")
             res.status(200);
-            res.send({'added': req.body});
+            res.redirect('/');
+
         })
     })
 };
@@ -114,7 +126,7 @@ exports.deleteNoteByTitleandId = function(req,res) {
         collection.update({'_id': new ObjectId(id)}, {$pull: {"notes" : {"title":title}}},function(err,item) {
             console.log("Deleted.");
             res.status(200);
-            res.send({'deleted': title});
+            res.redirect('/');
         })
 
     })
