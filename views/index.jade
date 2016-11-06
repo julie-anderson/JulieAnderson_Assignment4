@@ -3,7 +3,7 @@ extends layout
 block content
     .row
         .col-xs-12
-                form(action="/api/users/581f63dd9d4e1925baf397d4/notes", method="post", role="form")
+                form(action="/api/users/1/notes", method="post", role="form")
                     .form-group
                         label(for='title') Title
                         input#title(name="title").form-control
@@ -15,12 +15,16 @@ block content
                  .error= message
      .row
          .col-xs-12
-            .list-group
                 each Note in notes
-                    .list-group-item.notetitle="Note Title: " + Note.title
-                            form(action="/api/users/581f63dd9d4e1925baf397d4/notes/#{Note.title}?_method=delete", method="post", role="form")
-                                button.btn.btn-danger(type='submit') Delete Note
-                    .list-group-item.notecontent="Note Contents: " + Note.contents
+                    h2.title= Note.title
+                    form(action="/api/users/1/notes/#{Note.title}?_method=put", method="post", role="form")
+                        .form-group
+                            label(for='contents') Contents
+                            input#contents(name="contents" value=Note.contents).form-control
+                        button.btn.btn-primary(type='submit') Update Note
+                    form(action="/api/users/1/notes/#{Note.title}?_method=delete", method="post", role="form")
+                         button.btn.btn-danger(type='submit') Delete Note
+
 
 
 

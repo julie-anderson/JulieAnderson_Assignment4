@@ -18,4 +18,5 @@ router.post('/api/users/:id', ctrlUsers.update);
 router.post('/api/users/:id/notes', ctrlUsers.addNote);
 router.delete('/api/users/:id',ctrlUsers.deleteById);
 
+
 module.exports = router;

@@ -27,7 +27,7 @@
     var id = req.params.id;
     console.log("Finding Notes for User " + id );
     db.collection('users', function(err, collection) {
-        collection.findOne({'_id': new ObjectId(id)},function(err, item) {
+        collection.findOne({'_id': id},function(err, item) {
             res.status(200);
             res.send(item.notes);
         });
@@ -89,7 +89,7 @@ exports.addNote = function(req, res) {
     console.log(req.body.title);
     console.log("Adding Note for user " + id);
     db.collection('users', function (err, collection) {
-        collection.update({'_id': new ObjectId(id)}, {$push: {notes: req.body}}, {w:1}, function(err,item){
+        collection.update({'_id': id}, {$push: {notes: req.body}}, {w:1}, function(err,item){
             console.log("Added.")
             res.status(200);
             res.redirect('/');
@@ -107,12 +107,11 @@ exports.updateNoteByTitleandId = function(req,res) {
     var id = req.params.id;
     var title = req.params.title;
     console.log('Updating note named ' + title + ' from user ' + id);
-    var newContent = "Here is the new Content";
     db.collection('users', function(err,collection){
-        collection.update({'_id': new ObjectId(id), "notes.title": title}, {$set: {"notes.$.contents": newContent}},function(err,item) {
+        collection.update({'_id': id, "notes.title": title}, {$set: {"notes.$.contents": req.body.contents}},function(err,item) {
             console.log("Updated.");
             res.status(200);
-            res.send({'updated': newContent});
+            res.redirect('/');
         })
 
     })
@@ -123,7 +122,7 @@ exports.deleteNoteByTitleandId = function(req,res) {
     var title = req.params.title;
     console.log('Deleting note named ' + title + ' from user ' + id);
     db.collection('users', function(err,collection){
-        collection.update({'_id': new ObjectId(id)}, {$pull: {"notes" : {"title":title}}},function(err,item) {
+        collection.update({'_id': id}, {$pull: {"notes" : {"title":title}}},function(err,item) {
             console.log("Deleted.");
             res.status(200);
             res.redirect('/');
@@ -137,7 +136,7 @@ exports.deleteNoteByTitleandId = function(req,res) {
       console.log('Deleting user with id ' + id);
       db.collection('users', function(err, collection) {
           console.log('deleting');
-          collection.remove({'_id': new ObjectId(id)}, function(err, results) {
+          collection.remove({'_id': id}, function(err, results) {
               if (err){
                   console.log("failed");
                   throw err;
@@ -150,9 +149,9 @@ exports.deleteNoteByTitleandId = function(req,res) {
     }
 
  var populateDB = function() {
-
      var user = [
          {
+             _id: "1",
              username: "test",
              password: "test",
              notes: [
